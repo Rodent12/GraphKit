@@ -1,0 +1,38 @@
+# Build artifacts
+*.o
+*.obj
+*.exe
+*.out
+/build/
+/dist/
+/bin/
+
+# IDE/Editor files
+.vscode/
+.idea/
+*.suo
+*.sdf
+
+# Dependency directories
+/dependencies/
+/vendor/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+
+# Generated files
+*.tar.gz
+*.zip
+*.log
+CMakeLists.txt.user
+
+# User-specific files
+.config/
+.cache/
+.history/
+
+# Ignore sensitive information (add your own specific files)
+secrets.txt
+config.ini
