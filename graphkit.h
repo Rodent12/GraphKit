@@ -295,19 +295,18 @@ public:
         return true;
     }
 
-    void kosarajuDFS(vector<vector<vector<int>>>&transpose,vector<bool>&visited,vector<int>&scc,int s){
+    void kosarajuDFS(vector<vector<vector<int>>>&transpose,vector<bool>&visited,int s){
         visited[s] = 1;
-        scc.push_back(s);
         for(auto it : transpose[s]){
             if(!visited[it[0]]){
-                kosarajuDFS(transpose,visited,scc,it[0]);
+                kosarajuDFS(transpose,visited,it[0]);
             }
         }
     }
 
 
-    vector<vector<int>> SCC(){
-        if(!isDirected){cout << "Error : Not applicable to undirected graphs." << endl; return {{}};}
+    int SCC(){
+        if(!isDirected){cout << "Error : Not applicable to undirected graphs." << endl; return 0;}
         vector<int> topologicalSort = getTopologicalSort();
 
         // reverse the edges.
@@ -317,16 +316,15 @@ public:
                 transpose[it[0]].push_back({i,it[1]});
             }
         }
-        vector<vector<int>> ans;
+        int cnt = 0;
         vector<bool> visited(number_of_nodes);
         for(int i=0;i<number_of_nodes;i++){
             if(!visited[i]){
-                vector<int> v;
-                kosarajuDFS(transpose,visited,v,i);
-                ans.push_back(v);
+                kosarajuDFS(transpose,visited,i);
+                cnt++;
             }
         }
-        return ans;
+        return cnt;
     }
 
 };
