@@ -108,11 +108,11 @@ public:
         return number_of_edges;
     }
 
-    bool isDirected(){
+    bool Directed(){
         return isDirected;
     }
 
-    bool isWeighted(){
+    bool Weighted(){
         return isWeighted;
     }
 
@@ -201,7 +201,7 @@ public:
 
     vector<int> shortestPath(int s){
         // Djikstra's Algorithm
-        if(!isWeighted){cout << "The graph isn't weighted" << endl; return {};}
+        if(!isWeighted){cout << "Not applicable to unweighted graphs" << endl; return {};}
         vector<int> dist(number_of_nodes,INT_MAX);
         vector<bool> vis(number_of_nodes,0);
         queue<int> q;
@@ -293,6 +293,40 @@ public:
             }
         }
         return true;
+    }
+
+    void kosarajuDFS(vector<vector<vector<int>>>&transpose,vector<bool>&visited,vector<int>&scc,int s){
+        visited[s] = 1;
+        scc.push_back(s);
+        for(auto it : transpose[s]){
+            if(!visited[it[0]]){
+                kosarajuDFS(transpose,visited,scc,it[0]);
+            }
+        }
+    }
+
+
+    vector<vector<int>> SCC(){
+        if(!isDirected){cout << "Error : Not applicable to undirected graphs." << endl; return {{}};}
+        vector<int> topologicalSort = getTopologicalSort();
+
+        // reverse the edges.
+        vector<vector<vector<int>>> transpose(number_of_nodes);
+        for(int i=0;i<number_of_nodes;i++){
+            for(auto it : adjList[i]){
+                transpose[it[0]].push_back({i,it[1]});
+            }
+        }
+        vector<vector<int>> ans;
+        vector<bool> visited(number_of_nodes);
+        for(int i=0;i<number_of_nodes;i++){
+            if(!visited[i]){
+                vector<int> v;
+                kosarajuDFS(transpose,visited,v,i);
+                ans.push_back(v);
+            }
+        }
+        return ans;
     }
 
 };
